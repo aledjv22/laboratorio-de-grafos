@@ -153,3 +153,36 @@ Prototipo de función:
 `u32 Delta(Grafo G);`
 Devuelve ∆(G), es decir, el mayor grado.
 Esta función esta detallada aca para ser usada en algunos casos y no tener que recalcular ∆, asi que si, en vez de hacer el cálculo una vez durante la construcción del grafo y guardar el resultado para que esta función lo pueda leer en **O(1)**, lo que hacen es recalcular ∆ cada vez que se llama a esta función, tendrán descuento de puntos.
+
+## Funciones para extraer información de los vertices
+En esta sección tenemos funciones que nos permitan saber el grado de un v ́ertice, y acceder a sus vecinos.
+Los vertices ser ́an los números 0,1,...,n − 1.
+Las funciones detalladas en esta sección, como en la anterior deben ser *O(1)*. De hecho, es mucho mas importante que sean *O(1)* estas, pues las anteriores probablemente sean usadas sólo una o dos veces en cada función, mientras que para colorear un vertice habrá que iterar sobre los vecinos de ese vértice repetidamente, y si la función que permite leer datos de vecinos no es *O(1)* para cada vecino, habrá problemas de velocidad.
+
+### Grado()
+Prototipo de función:
+`u32 Grado(u32 i, Grafo G);`
+Si `i` es menor que el número de vértices, devuelve el grado del vértice `i`.
+Si `i` es mayor o igual que el número de vértices, devuelve 0. (esto nunca puede ser un grado en los grafos que testeemos, pues no habrá vertices aislados).
+
+### Color()
+Prototipo de función:
+`color Color(u32 i, Grafo G);`
+Si `i` es menor que el número de vértices, la función devuelve el color del vértice `i`.
+Si `i` es mayor o igual que el número de vértices, la función devuelve 2³²-1.
+
+### Vecino()
+Prototipo de función:
+`u32 Vecino(u32 j, u32 i, Grafo G);`
+Esta función nos permite acceder a los vecinos de un vértice, para poder usar **SUS** datos.
+Si `i` es mayor o igual que el número de vértices o `i` es menor que el número de vértices pero `j` es mayor o igual que el grado del vértice `i` entonces la función devuelve 2³²-1.(esto nunca puede ser un vecino porque necesitariamos un grafo inmunejablemente grande).
+Si `i` es menor que el número de vértices y `j` es menor que el grado de vértice `i` y el vécino j-ésimo del vértice `i` es el vértice `k` entonces `Vecino(j, i, G)` es igual a `k`.
+En esta función se habla del **vécino j-ésimo**.
+Con esto nos referimos al vértice que es el j-ésimo vécino del vértice en cuestión donde el orden del cual se habla es el orden en el que ustedes hayan guardados los vecinos de un vértice en G, con el índice 0 indicando el primer vécino, el índice 1 el segundo, etc.
+Este orden NO ESTA ESPECIFICADO, y un grupo puede tener un orden y otro grupo otro, asi que el retorno para valores individuales de estas funciones no será el mismo para un grupo que para otro, y no será necesariamente igual al retorno de nuesstras funciones.
+Prodriamos especificar los vecinos deben estar guardados en algun orden particular, pero no es necesario para nuestros propositos, asi que les dejamos libertad para que lo hagan de la forma mas conveniente para su estructura.
+Para que sirve una función que da valores distintos dependiendo de la implementación?
+Esta función existe pues para colorear necesitamos iterar sobre **todos** los vecinos, y porque si queremos testear si la estructura del grafo esta bien guardada, necesitamos una función que nos permita "ver" cómo estan guardados los vecinos en esa estructura.
+Pero no es importante el orden en que estan guardados, sólo importa que podamos recorrerlos a todos, por eso no especificamos el orden de los vecinos.
+**IMPORTANTE:** si bien ya hemos dicho que todas las funciones de estas secciones deben ser *O(1)*, reiteraos, una vez mas, que esta función debe ser *O(1)*.
+Como va a ser usada para iterar sobre los vecinos, probablemente dentro de un loop que ademas itere sobre todos los vértices, es **CLAVE** que esta función sea *O(1)* pues de lo contrario nada va a poder funcionar a una velocidad razonable. Asi que la estructura que armen del grafo debe ser tal que esta función sea *O(1)* y no tenga que hacer una iteración para ser calculada.

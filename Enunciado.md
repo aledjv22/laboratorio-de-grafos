@@ -117,3 +117,20 @@ Pueden declarar `u32` como `unsigned int` o bien haciendo un include de int.h y 
 ### color
 El tipo de dato `color` es un `u32`.
 Tiene qun nombre distinto como medida para evitar posibles errores de programación. Como el nombre lo indica, será usado solamente para los colores de los vértices, mientras que los vertices serán `u32`.
+
+## Funciones De Construcción/Destrucción del grafo
+
+### ConstruirGrafo()
+Prototipo de función: 
+`Grafo ConstruirGrafo();`
+La función aloca memoria, inicializa lo que haya que inicializar de una estructura `GrafoSt`, lee un grafo **desde standard input** en el formatoindicado en la última sección, lo carga en la estructura, colorea todos los vertices con el color 0, y devuelve un puntero a la estructura.
+En caso de error, la función devolverá un puntero `NULL`. Errores posibles pueden ser falla en alocar memoria, pero también que el formato de entrada no sea válido. Por ejemplo, en la última sección se dice que en una cierta linea se indicará un número *m* que indica cuantos lados habrá y a continuación debe haber *m* lineas cada una de las cuales indica un lado. Si no hay AL MENOS *m* lineas luego de esa, debe retornar `NULL` (si hay mas de *m* lineas luego de la primera, sólo debe leer las *m* primeras).
+Dado que esta función debe como mínimo leer todos los lados de los datos de entrada, su complejidad n puede ser inferior a **O(m)**, pero esta función NO PUEDE ser **O(n²)** (y MENOS puede ser **O(mn)**) pues en los grafos de testeo habrá grafos con millones de vértices, y un grafo asi con un algoritmo **O(n²)** no terminará en un tiempo razonable.
+En cuanto a *m*, puede estar en el orden de millones también, y puede ser *m = O(n²)*, pero sólo para *n* del orden de miles, mientras que cuando *n* sea del orden de millones, *m* no será *O(n²)* sino *O(n)*, pues como dijimos arriba esta función no puede tener complejidad menor a *O(m)* y un *m* de pej miles de millones haría que demorara mucho. 
+Así que deberían pensar una estructura tal que esta función sea, idealmente, *O(m)*. En años anteriores, con las especificaciones dadas entonces, esto parecía ser muy difícil, así que *O(mlogm)* era perfectamente aceptable. Este año, con las especificaciones dadas, deberían poder hacerlo en tiempo O(m), pero también aceptaremos *O(mlogm)*. (el código para *O(mlogm)* es probablemente más corto, dependiendo como programen).
+
+### DestruirGrafo()
+Prototipo de función:
+`void DestruirGrafo(Grafo G);`
+Destruye G y libera la memoria que alocada.
+Esta función también deberia tener una complejidad razonable, no hay razón para que sea mayor a **O(m)** e incluso puede ser menor, pero **O(m)** es aceptable.

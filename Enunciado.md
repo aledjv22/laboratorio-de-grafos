@@ -276,13 +276,14 @@ O por ejemplo tambien podremos testear con archivos donde en vez de p edge n m t
    e 10 11
    e 0 10
    ```
-10. El orden de los lados no tiene porqué ser en orden ascendente de los vertices, ni lo lados estar ordenados con el vértice mas chico primero. Ejemplo Válido:
-   ```bash
-   c lados no ordenados
-   p edge 5 5
-   e 3 0
-   e 4 1
-   e 2 4
-   e 1 2
-   e 3 1
-   ```
+10. El orden de los lados no tiene porqué ser en orden ascendente de los vertices, ni lo lados estar ordenados con el vértice mas chico primero.
+    Ejemplo Válido:
+    ```bash
+    c lados no ordenados
+    p edge 5 5
+    e 3 0
+    e 4 1
+    e 2 4
+    e 1 2
+    e 3 1
+    ```

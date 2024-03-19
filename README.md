@@ -8,4 +8,4 @@ El enunciado compartido por la cátedra se encuentra en el archivo [enunciado.md
 ## Integrantes
 - **[Alejandro Díaz.](https://github.com/aledjv22)**
 - **[Arne Müller.](https://github.com/AguilaMolinera)**
-- **[Majo.]()**
+- **[Majo.](https://github.com/majov9991)**

@@ -210,3 +210,9 @@ Si `n` es el número de vértices de *G*, esta función asigna al vértice `i` d
 **SE ASUME** que `Color` es un array que apunta a un lugar de memoria con `n` lugares.
 **NO ES REQUERIMIENTO** que la función preserve los valores originales que tenia `Color`. Es decir, luego de llamar a esta función, el array `Color` puede tener cualquier cosa. (dependiendo de quien implemente esta función).
 Por lo tanto, el usuario de esta función debe tener en cuenta esto.
+
+## Consideraciones finales para esta primera etapa
+En esta etapa, la mayoria de las funciones son muy fáciles si piensan primero bien la estructura con la cual van a cargar el grafo.
+Las cosas mas dificiiles de esta primera etapa son:
+1. Definir la estructura en forma adecuada para que las funciones de extracción de información sean *O(1)*.
+2. Programar en forma eficiente la construccioón del grafo. Algunos grafos tendrán millones de vértices, por lo tanto una construcción que sea *O(n²)* no terminará de cargar el grafo en ningún tiempo razonable. No es necesario que sea hipereficiente, pues la construcción del grafo se hace una sola vez, mientras que la lectura de los datos múltiples veces, pero no puede ser tan ineficiente que demore horas o días en cargar un grafo.

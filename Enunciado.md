@@ -14,7 +14,7 @@
    2. [GrafoSt](#grafoSt)
    3. [u32](#u32)
    4. [color](#color)
-3. [Funciones De Construcción/Destrucción del grafo](#funciones-de-construcción/destrucción-del-grafo)
+3. [Funciones De Construcción y Destrucción del grafo](#funciones-de-construcción-y-destrucción-del-grafo)
    1. [ConstruirGrafo()](#construirgrafo)
    2. [DestruirGrafo()](#destruirgrafo)
 4. [Funciones para extraer información de datos del grafo](#funciones-para-extraer-información-de-datos-del-grafo)
@@ -118,7 +118,7 @@ Pueden declarar `u32` como `unsigned int` o bien haciendo un include de int.h y 
 El tipo de dato `color` es un `u32`.
 Tiene qun nombre distinto como medida para evitar posibles errores de programación. Como el nombre lo indica, será usado solamente para los colores de los vértices, mientras que los vertices serán `u32`.
 
-## Funciones De Construcción/Destrucción del grafo
+## Funciones De Construcción y Destrucción del grafo
 
 ### ConstruirGrafo()
 Prototipo de función: 
@@ -222,11 +222,15 @@ El formato de entrada será una variación de **DIMACS**, que es un formato esta
 1. Las lineas pueden tener una **cantidad arbitraria de caracteres**. (la descripción oficial de Dimacs dice que ninguna linea tendrá mas de 80 caracteres pero hemos visto archivos DIMACS en la web que no cumple esta especificación y usaremos algunos con lineas de mas de 80 caracteres).
 2. Al principio habrá cero o mas lineas que empiezan con c las cuales son lineas de comentario y deben ignorarse.
 3. Luego hay una linea de la forma:
+   ``` bash
    p edge n m
+   ```
    donde n y m son dos enteros. Luego de m, y entre n y m, puede haber una cantidad arbitraria de espacios en blancos.
    Si bien hay ejemplos en la web en donde n es en realidad solo un COTA SUPERIOR del número de vertices y m una cota superior del número de lados, todos los grafos que nosotros usaremos para testear cumplirán que n será el número de vertices exacto y m el número de lados exacto.
 4. Luego siguen m lineas todas comenzando con e y dos enteros, representando un lado. Es decir, lineas de la forma:
+   ``` bash
    e v w
+   ```
    (luego de "w" y entre "v" y "w" puede haber una cantidad arbitraria de espacios en blanco).
 5. Nunca fijaremos `m = 0`, es decir, siempre habrá al menos un lado. (y por lo tanto, al menos dos vértices).
 6. Si bien en algunos ejemplos en algunas páginas hay vértices con grado 0, y que por lo tanto no aparecen en ningún lado en nuestros ejemplos no habrá vértices con grado 0: los únicos vértices que cuentan son los vértices que aparecen como extremos de al menos un lado.
@@ -236,12 +240,17 @@ de testeo en el cual no haya al menos m lineas comenzando con e. En ese caso, co
 O por ejemplo tambien podremos testear con archivos donde en vez de p edge n m tengan algo similar pero no correcto como p edgee n m, en cuyo caso tambien deben devolver NULL.
 8. Los vertices serán 0,1,2,...,n-1. (nota: en muchos ejemplos de la web, los vértices son 1,2,...,n y en otros casos son cualesquiera n enteros de 32 bits. Este año elejimos 0,1,2,...,n-1 para que sea mas fácil cargar el grafo y para disminuir la posibilidad de error con indices de arrays en C).
 9. En algunos archivos que figuran en la web, en la lista pueden aparecer tanto un lado de la forma
+   ```bash
    e 7 9
+   ```
    como el
+   ```bash
    e 9 7
+   ```
    Los grafos que usaremos nosotros **no son asi**.
    Es decir, si aparece el lado e v w **NO** aparecerá el lado e w v.
    Ejemplo:
+   ```bash
    c grafo basado en una Mycielski transformation, pero con un lado extra
    c Triangle free (clique number 2) but increasing
    p edge 12 31
@@ -266,6 +275,7 @@ O por ejemplo tambien podremos testear con archivos donde en vez de p edge n m t
    e 9 11
    e 10 11
    e 0 10
+   ```
 10. El orden de los lados no tiene porqué ser en orden ascendente de los vertices, ni lo lados estar ordenados con el vértice mas chico primero.
    Ejemplo Válido:
    c lados no ordenados

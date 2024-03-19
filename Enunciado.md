@@ -186,3 +186,27 @@ Esta función existe pues para colorear necesitamos iterar sobre **todos** los v
 Pero no es importante el orden en que estan guardados, sólo importa que podamos recorrerlos a todos, por eso no especificamos el orden de los vecinos.
 **IMPORTANTE:** si bien ya hemos dicho que todas las funciones de estas secciones deben ser *O(1)*, reiteraos, una vez mas, que esta función debe ser *O(1)*.
 Como va a ser usada para iterar sobre los vecinos, probablemente dentro de un loop que ademas itere sobre todos los vértices, es **CLAVE** que esta función sea *O(1)* pues de lo contrario nada va a poder funcionar a una velocidad razonable. Asi que la estructura que armen del grafo debe ser tal que esta función sea *O(1)* y no tenga que hacer una iteración para ser calculada.
+
+## Funciones para asignar colores
+
+### AsignarColor()
+Prototipo de función:
+`void AsignarColor(color x, u32 i, Grafo G);`
+Si `i` es mayor o igual que el número de vértices, esta función no hace nada.
+Si `i` es menor que el número de vértices, la función asigna el color `x` al vértice `i`.
+
+### ExtraerColores()
+Prototipo de función:
+`void ExtraerColores(Grafo G, color* Color);`
+Si n es el número de vértices de G, esta función asigna a `Color[i]` el color que tiene el vértice `i` en *G*, para cada `i` entre 0 y n-1.
+**SE ASUME** que Color es un array que apunta a un lugar de memoria con `n` lugares.
+**NO ES REQUERIMIENTO** que la función preserve el color de los vértices. Es decir, luego de llamar a esta unción, los colores de los vértices de G pueden ser distintos de los originales. (dependiendo de quien implemente esta función).
+Por lo tanto, el usuario de esta función debe tener en cuenta esto.
+
+### ImportarColores()
+Prototipo de función:
+`void ImportarColores(color* Color, Grafo G);`
+Si `n` es el número de vértices de *G*, esta función asigna al vértice `i` de *G* el color `Color[i]`, para cada `i` entre 0 y `n`-1.
+**SE ASUME** que `Color` es un array que apunta a un lugar de memoria con `n` lugares.
+**NO ES REQUERIMIENTO** que la función preserve los valores originales que tenia `Color`. Es decir, luego de llamar a esta función, el array `Color` puede tener cualquier cosa. (dependiendo de quien implemente esta función).
+Por lo tanto, el usuario de esta función debe tener en cuenta esto.

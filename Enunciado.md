@@ -89,3 +89,31 @@ Algunos grupos hacen funciones que tienen `prints` interiores para debuggear, pe
 Compilaremos (con mains nuestros) usando `gcc`, `-Wall, -Wextra, -O3, -std=c99`. También haremos **-I** al directorio donde pondremos los .h.
 Esas *flags* serán usadas para testear la velocidad, pero para testear grafos chicos podemos agregar otras flags. Por ejemplo, podemos usar **-DNDEBUG** si vemos que estan mal usados `asserts`.
 También compilaremos, para testear grafos chicos, en particular con `-fsanitize=address`, `undefined`. Su programa **DEBE** compilar y correr correctamente con esa flag aunque para grafos grandes lo correremos con un ejecutable compilado sin esa flag, dado que esa flag provoca una gran demora en la ejecución.
+
+## Tipos de Datos
+
+### Grafo
+Es un puntero a una estructura de datos *[GrafoSt](#grafoSt)*. Esto estará definido en [APIG24.h](./APIG24.h).
+El resto de los tipos de datos deben estar definidos en su archivo EstructuraGrafo24.h.
+EstructuraGrafo24.h lo tienen que definir uds de acuerdo con la estructura particular con la cual piensan guardar el grafo. 
+También puede estar ahi cualquier declaración de funciones auxiliares que necesiten.
+
+### GrafoSt
+Es una estructura, la cual contendrá toda la información sobre el grafo necesaria para correr las funciones pedidas.
+En particular, la definición interna debe contener como mínimo:
+1. El número de vértices y lados del grafo.
+2. Los grados y colores de todos los vértices.
+3. El Delta del grafo (el mayor grado).
+4. Quienes son los vecinos de cada vértice.
+Los grafos que se carguen serán no dirigidos.
+La estructura debe ser racional. Usar una estructura que demande Terabytes de almacenamiento no es racional (esto ha pasado antes).
+
+### u32
+Se utilizará el tipo de dato `u32` para especificar un entero de 32 bits sin signo.
+Todos los enteros sin signo de 32 bits que aparezcan en la implementación y que no sean un color de un vértice deberán usar este tipo de dato.
+Los grafos a colorear tendran una lista de lados cuyos vertices serán todos `u32`.
+Pueden declarar `u32` como `unsigned int` o bien haciendo un include de int.h y declarandolo apropiadamente. `u32` **NO ES** un `long unsigned int` en computadoras modernas.
+
+### color
+El tipo de dato `color` es un `u32`.
+Tiene qun nombre distinto como medida para evitar posibles errores de programación. Como el nombre lo indica, será usado solamente para los colores de los vértices, mientras que los vertices serán `u32`.

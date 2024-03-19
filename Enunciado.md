@@ -134,3 +134,22 @@ Prototipo de función:
 `void DestruirGrafo(Grafo G);`
 Destruye G y libera la memoria que alocada.
 Esta función también deberia tener una complejidad razonable, no hay razón para que sea mayor a **O(m)** e incluso puede ser menor, pero **O(m)** es aceptable.
+
+## Funciones para extraer información de datos del grafo
+Las funciones detallas en esta sección y las que siguen deben ser todas **O(1)**., pues serán usadas repetidamente por las funciones de la segunda etapa y si no son **O(1)** no podrán hacer correr las funciones en un tiempo razonable. No debería haber ningún problema con esto, basta con guardar la información en un campo adecuado en la estructura del grafo.
+
+### NumeroDeVertices()
+Prototipo de función:
+`u32 NumeroDeVertices(Grafo G);`
+Devuelve el número de vértices de G.
+
+### NumeroDeLados()
+Prototipo de función:
+`u32 NumeroDeLados(Grafo G);`
+Devuelve el número de lados de G.
+
+### Delta()
+Prototipo de función:
+`u32 Delta(Grafo G);`
+Devuelve ∆(G), es decir, el mayor grado.
+Esta función esta detallada aca para ser usada en algunos casos y no tener que recalcular ∆, asi que si, en vez de hacer el cálculo una vez durante la construcción del grafo y guardar el resultado para que esta función lo pueda leer en **O(1)**, lo que hacen es recalcular ∆ cada vez que se llama a esta función, tendrán descuento de puntos.

@@ -216,3 +216,62 @@ En esta etapa, la mayoria de las funciones son muy fáciles si piensan primero b
 Las cosas mas dificiiles de esta primera etapa son:
 1. Definir la estructura en forma adecuada para que las funciones de extracción de información sean *O(1)*.
 2. Programar en forma eficiente la construccioón del grafo. Algunos grafos tendrán millones de vértices, por lo tanto una construcción que sea *O(n²)* no terminará de cargar el grafo en ningún tiempo razonable. No es necesario que sea hipereficiente, pues la construcción del grafo se hace una sola vez, mientras que la lectura de los datos múltiples veces, pero no puede ser tan ineficiente que demore horas o días en cargar un grafo.
+
+## Formato de Entrada
+El formato de entrada será una variación de **DIMACS**, que es un formato estandard para representar grafos, con algunos cambios.
+1. Las lineas pueden tener una **cantidad arbitraria de caracteres**. (la descripción oficial de Dimacs dice que ninguna linea tendrá mas de 80 caracteres pero hemos visto archivos DIMACS en la web que no cumple esta especificación y usaremos algunos con lineas de mas de 80 caracteres).
+2. Al principio habrá cero o mas lineas que empiezan con c las cuales son lineas de comentario y deben ignorarse.
+3. Luego hay una linea de la forma:
+   p edge n m
+   donde n y m son dos enteros. Luego de m, y entre n y m, puede haber una cantidad arbitraria de espacios en blancos.
+   Si bien hay ejemplos en la web en donde n es en realidad solo un COTA SUPERIOR del número de vertices y m una cota superior del número de lados, todos los grafos que nosotros usaremos para testear cumplirán que n será el número de vertices exacto y m el número de lados exacto.
+4. Luego siguen m lineas todas comenzando con e y dos enteros, representando un lado. Es decir, lineas de la forma:
+   e v w
+   (luego de "w" y entre "v" y "w" puede haber una cantidad arbitraria de espacios en blanco).
+5. Nunca fijaremos `m = 0`, es decir, siempre habrá al menos un lado. (y por lo tanto, al menos dos vértices).
+6. Si bien en algunos ejemplos en algunas páginas hay vértices con grado 0, y que por lo tanto no aparecen en ningún lado en nuestros ejemplos no habrá vértices con grado 0: los únicos vértices que cuentan son los vértices que aparecen como extremos de al menos un lado.
+7. Luego de esas m lineas puede haber una cantidad arbitraria de lineas de cualquier formato las cuales deben ser ignoradas. Es decir, se **debe detener la carga sin leer ninguna otra linea luego de las m lineas**, aún si hay mas lineas. Estas lineas extras pueden tener una forma arbitraria, pueden o no ser comentarios, o extra lados, etc. y deben ser ignoradas. Pueden, por ejemplo, tener un SEGUNDO grafo, para que si la función de carga de un grafo se llama dos
+veces por algún programa, el programa cargue dos grafos. Por otro lado, el archivo puede efectivamente terminar en la  ́ultima de esas lineas, y su código debe poder procesar estos archivos también. En un formato válido de entrada habrá al menos *m* lineas comenzando con *e*, pero puede haber algún archivo
+de testeo en el cual no haya al menos m lineas comenzando con e. En ese caso, como se especifica en 3.1, debe detenerse la carga y devolver un puntero a NULL.
+O por ejemplo tambien podremos testear con archivos donde en vez de p edge n m tengan algo similar pero no correcto como p edgee n m, en cuyo caso tambien deben devolver NULL.
+8. Los vertices serán 0,1,2,...,n-1. (nota: en muchos ejemplos de la web, los vértices son 1,2,...,n y en otros casos son cualesquiera n enteros de 32 bits. Este año elejimos 0,1,2,...,n-1 para que sea mas fácil cargar el grafo y para disminuir la posibilidad de error con indices de arrays en C).
+9. En algunos archivos que figuran en la web, en la lista pueden aparecer tanto un lado de la forma
+   e 7 9
+   como el
+   e 9 7
+   Los grafos que usaremos nosotros **no son asi**.
+   Es decir, si aparece el lado e v w **NO** aparecerá el lado e w v.
+   Ejemplo:
+   c grafo basado en una Mycielski transformation, pero con un lado extra
+   c Triangle free (clique number 2) but increasing
+   p edge 12 31
+   e 1 2
+   e 1 4
+   e 1 7
+   e 1 9
+   e 2 3
+   e 2 6
+   e 2 8
+   e 3 5
+   e 3 7
+   e 3 10
+   e 4 5
+   e 4 6
+   e 4 10
+   e 5 8
+   e 5 9
+   e 6 11
+   e 7 11
+   e 8 11
+   e 9 11
+   e 10 11
+   e 0 10
+10. El orden de los lados no tiene porqué ser en orden ascendente de los vertices, ni lo lados estar ordenados con el vértice mas chico primero.
+   Ejemplo Válido:
+   c lados no ordenados
+   p edge 5 5
+   e 3 0
+   e 4 1
+   e 2 4
+   e 1 2
+   e 3 1

@@ -5,22 +5,23 @@
 #include <stdlib.h>
 
 typedef unsigned int u32;
-typedef u32 color;
+typedef unsigned int color;
 
-struct Nodo {
-    u32 vertice; // Identificador del vertice
+
+typedef struct VerticeSt {
+    u32 Id; // Identificador del vertice
     u32 grado; // Grado de un vertice
     color color; // Color del vertice
-    struct Nodo* next; // Vecinos
-};
+    Vertice vecino; // Vecinos
+} VerticeSt;
 
-struct GrafoSt {
+typedef struct GrafoSt {
     u32 numVertices; // Cantidad de vertices total en el grafo
     u32 numLados; // Cantidad de lados total en el grafo
     u32 numColores; // Cantidad de colores con los que se puede pintar el grafo
-    u32 delta_; // Delta del grafo, mayor grado
-    struct Nodo* vertex; // Vertices
-};
+    u32 delta; // Delta del grafo, mayor grado
+    Vertice vertex; // Vertices
+} GrafoSt;
 
 
 #endif

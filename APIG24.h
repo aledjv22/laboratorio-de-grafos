@@ -15,6 +15,9 @@
 
 typedef GrafoSt *Grafo;
 
+//Vertice es un puntero a una estructura VerticeSt, la cual debe estar definida en el .h de arriba
+typedef VerticeSt *Vertice;
+
 
 //construcci'on/destrucci'on
 

@@ -1,53 +1,26 @@
 #include "APIG24.h"
 #include <string.h>
 
-Grafo crear_Grafo(u32 n, u32 m) {
-    Grafo grafo = malloc(sizeof(Grafo));
-    grafo->delta = 0;
-    grafo->numColores = 0;
-    grafo->numVertices = n;
-    grafo->numLados = m;
-    grafo->vertex = malloc(sizeof(Vertice) * grafo->numVertices);
-    return grafo;
+Grafo crear_Grafo(u32 n) {
+    Grafo Grafo = malloc(sizeof(GrafoSt) + n * sizeof(Vertice));
+    Grafo->numVertices = n;
+    u32 i;
+    for (i = 0; i < n; ++i)
+    Grafo->vertices[i] = NULL;
+  
+    return Grafo;
 }
 
-void crear_vertice(Grafo grafo, u32 v) {
-    // Reserva de memoria
-    Vertice nuevoVertice = malloc(sizeof(Vertice));
-
-    // Inicialización del vértice
-    nuevoVertice->Id = v;
-    nuevoVertice->grado = 0;
-    nuevoVertice->color = 0;
-    nuevoVertice->vecino = NULL;
-
-    // Agregar el vértice al array de vértices
-    grafo->vertex[v] = *nuevoVertice;
-
-    // Actualizar la cantidad de vértices
-    grafo->numVertices++;
+Vertice crear_Vertice(u32 v) {
+    Vertice nuevoVertice = malloc(sizeof(VerticeSt));
+    nuevoVertice->id = v;
+    nuevoVertice->vecinos = NULL;
+    return nuevoVertice;
 }
 
-void AgregarVecino(Grafo grafo, u32 verticeActual, u32 idVecino) {
-    // Reserva de memoria
-    Vertice nuevoVecino = malloc(sizeof(Vertice));
+void agregar_Vecino(Grafo grafo, u32 verticeActual, u32 idVecino) {
 
-    // Inicialización del vecino
-    nuevoVecino->Id = idVecino;
-    nuevoVecino->grado = 0;
-    nuevoVecino->color = 0;
-    nuevoVecino->vecino = NULL;
-
-    // Agregar el vecino a la lista
-    Vertice actual = &grafo->vertex[verticeActual];
-    while (actual->vecino != NULL) {
-        actual = actual->vecino;
-    }
-    actual->vecino = nuevoVecino;
-
-    // Actualizar el grado del vértice
-    grafo->vertex[verticeActual].grado++;
-
-    if (grafo->vertex[verticeActual].grado > grafo->delta)
-        grafo->delta = grafo->vertex[verticeActual].grado;
+    Vertice nuevoVertice = crear_Vertice(idVecino);
+    nuevoVertice->vecinos = grafo->vertices[verticeActual-1];
+    grafo->vertices[verticeActual-1] = nuevoVertice;
 }

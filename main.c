@@ -32,13 +32,10 @@ Grafo ConstruirGrafo() {
             return NULL;
         }
 
-        Grafo grafo = crear_Grafo(n, m);
+        Grafo grafo = crear_Grafo(n);
         
         u32 v = 0, w = 0;
-        u32 *v_inicializados = malloc(sizeof(u32)* grafo->numVertices );
-        for(u32 i = 0; i < n; i++) {
-            v_inicializados[i] = 0;
-        }
+        
         for(u32 i = 0; i < m; i++) {
             if (fgets(line, sizeof(line), stdin) == NULL) {
                 printf("Error al leer stdin\n");
@@ -49,19 +46,16 @@ Grafo ConstruirGrafo() {
                         printf("Error al leer los vertices de la arista %d\n", i + 1);
                         return NULL;
                     }
-                    if(v_inicializados[v] == 0) {
-                        v_inicializados[v] = 1;
-                        crear_vertice(grafo, v);
-                        AgregarVecino(grafo, v, w);
-                    }
-                    else {
-                        AgregarVecino(grafo, v, w);
-                    }
+                    AgregarVecino(grafo, v, w);
             }
             else {
                 printf("Se esperaban %u lados, empezando con 'e' al ingresarlos\n", m);
                 return NULL;
             }
+        }
+        if (fgets(line, sizeof(line), stdin) != NULL) {
+            printf("Se encontraron datos adicionales después del grafo.\n");
+            return NULL;
         }
     }
     else {

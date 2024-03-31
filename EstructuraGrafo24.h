@@ -9,10 +9,9 @@ typedef unsigned int color;
 
 
 typedef struct VerticeSt {
-    u32 id;
     u32 grado; // Grado de un vertice
     color color; // Color del vertice
-    Vertice vecinos;
+    u32 *vecinos; // Si = 1 es vecino, si no, no es vecino
 } VerticeSt;
 
 //Vertice es un puntero a una estructura VerticeSt, la cual debe estar definida en el .h de arriba
@@ -23,7 +22,7 @@ typedef struct GrafoSt {
     u32 numLados; // Cantidad de lados total en el grafo
     u32 numColores; // Cantidad de colores con los que se puede pintar el grafo
     u32 delta; // Delta del grafo, mayor grado
-    Vertice vertices[]; // Array de punteros a Vertice
+    Vertice *vertices; // Array de punteros a Vertice
 } GrafoSt;
 
 

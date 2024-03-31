@@ -4,7 +4,7 @@
 
 
 /*
-O(ContruirGrafo) = 
+O(ContruirGrafo) = m+n
 */
 
 Grafo ConstruirGrafo() {
@@ -32,7 +32,7 @@ Grafo ConstruirGrafo() {
             return NULL;
         }
 
-        Grafo grafo = crear_Grafo(n);
+        Grafo grafo = crear_Grafo(n, m);
         
         u32 v = 0, w = 0;
         
@@ -41,22 +41,19 @@ Grafo ConstruirGrafo() {
                 printf("Error al leer stdin\n");
                 return NULL;
             }
-            if(line[0] == 'e') { // Si no empieza con 'e'
+            if(line[0] == 'e') { // Si empieza con 'e'
                     if (sscanf(line + 1, "%d%*c%d", &v, &w) != 2) {
                         printf("Error al leer los vertices de la arista %d\n", i + 1);
                         return NULL;
                     }
-                    AgregarVecino(grafo, v, w);
+                    agregar_Vecino(grafo, v, w);
             }
             else {
                 printf("Se esperaban %u lados, empezando con 'e' al ingresarlos\n", m);
                 return NULL;
             }
         }
-        if (fgets(line, sizeof(line), stdin) != NULL) {
-            printf("Se encontraron datos adicionales después del grafo.\n");
-            return NULL;
-        }
+        return grafo;
     }
     else {
         printf("Se esperaba 'p edge' para ingresar el numero de vertices y el numero de lados\n");
@@ -64,3 +61,18 @@ Grafo ConstruirGrafo() {
     }    
 }
 
+void print_grafo(Grafo g) {
+    for (u32 i = 0; i < g->numVertices; i++) {
+        printf("De %u \n", i);
+        for (u32 j = 0; j < g->numVertices; j++) {
+            if(g->vertices[i]->vecinos[j] == 1)
+                printf("%u ", j);
+        }
+        printf("\n");
+    }
+}
+
+int main() {
+    Grafo g = ConstruirGrafo();
+    print_grafo(g);
+}

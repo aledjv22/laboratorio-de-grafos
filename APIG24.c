@@ -22,27 +22,42 @@ Grafo crear_Grafo(u32 n, u32 m) {
 
     // Inicializa el delta del grafo a 0.
     grafo->delta = 0;
-
-    // Inicializa los vértices del grafo.
-    for (u32 i = 0; i < n; i++) {
-        // Reserva memoria para la estructura VerticeSt.
-        grafo->vertices[i] = malloc(sizeof(struct VerticeSt));
-
-        // Inicializa el grado del vértice a 0.
-        grafo->vertices[i]->grado = 0;
-
-        // Inicializa el color del vértice a 0.
-        grafo->vertices[i]->color = 0;
-
-        // Reserva memoria para la lista de vecinos del vértice.
-        grafo->vertices[i]->vecinos = malloc(n * sizeof(u32));
-    }
+    grafo->inicializado = calloc(sizeof(u32), n);
 
     return grafo;
 }
 
 // Función para agregar una arista (v, w) al grafo.
 void agregar_Vecino(Grafo grafo, u32 verticeActual, u32 idVecino) {
+    if (grafo->inicializado[verticeActual] == 0) {
+        grafo->inicializado[verticeActual] = 1;
+        // Reserva memoria para la estructura VerticeSt.
+        grafo->vertices[verticeActual] = malloc(sizeof(struct VerticeSt));
+
+        // Inicializa el grado del vértice a 0.
+        grafo->vertices[verticeActual]->grado = 0;
+
+        // Inicializa el color del vértice a 0.
+        grafo->vertices[verticeActual]->color = 0;
+
+        // Reserva memoria para la lista de vecinos del vértice.
+        grafo->vertices[verticeActual]->vecinos = malloc(grafo->numVertices * sizeof(u32));
+    }
+    if (grafo->inicializado[idVecino] == 0) {
+        grafo->inicializado[idVecino] = 1;
+        // Reserva memoria para la estructura VerticeSt.
+        grafo->vertices[idVecino] = malloc(sizeof(struct VerticeSt));
+
+        // Inicializa el grado del vértice a 0.
+        grafo->vertices[idVecino]->grado = 0;
+
+        // Inicializa el color del vértice a 0.
+        grafo->vertices[idVecino]->color = 0;
+
+        // Reserva memoria para la lista de vecinos del vértice.
+        grafo->vertices[idVecino]->vecinos = malloc(grafo->numVertices * sizeof(u32));
+    }
+    
     // Agrega el vértice 'idVecino' a la lista de vecinos de 'verticeActual'.
     grafo->vertices[verticeActual]->vecinos[grafo->vertices[verticeActual]->grado] = idVecino;
 
@@ -61,9 +76,8 @@ void agregar_Vecino(Grafo grafo, u32 verticeActual, u32 idVecino) {
 }
 
 /* 
-   O(ConstruirGrafo) = m + n, donde:
+   O(ConstruirGrafo) = m, donde:
    - m es el número de lados del grafo
-   - n es el número de vértices del grafo
 */
 
 Grafo ConstruirGrafo() {
@@ -71,35 +85,30 @@ Grafo ConstruirGrafo() {
 
     // Lee la primera línea del archivo de entrada estándar (stdin)
     if (fgets(line, sizeof(line), stdin) == NULL) {
-        printf("Error al leer stdin\n");
         return NULL;
     }
 
     // Ignora líneas que comiencen con 'c' (comentarios)
     while (line[0] == 'c') {
         if (fgets(line, sizeof(line), stdin) == NULL) {
-            printf("Error al leer stdin\n");
             return NULL;
         }
     }
 
     // Valida que la línea comience con 'p edge' (formato esperado para especificar número de vértices y lados)
     if (strncmp(line, "p edge", 6) != 0) {
-        printf("Se esperaba 'p edge' para ingresar el numero de vertices y el numero de lados\n");
         return NULL;
     }
 
     // Lee el número de vértices (n) y el número de lados (m) de la línea
     u32 n, m;
     if (sscanf(line + 6, "%d%*c%d", &n, &m) != 2) {
-        printf("Error al leer el numero de vertices y aristas\n");
         return NULL;
     }
 
     // Crea un grafo utilizando la función crear_Grafo (definida presumiblemente en Funciones.c)
     Grafo grafo = crear_Grafo(n, m);
     if (grafo == NULL) {
-        printf("Error al crear el grafo\n");
         return NULL;
     }
 
@@ -107,28 +116,24 @@ Grafo ConstruirGrafo() {
     u32 v, w;
     for (u32 i = 0; i < m; i++) {
         if (fgets(line, sizeof(line), stdin) == NULL) {
-            printf("Error al leer stdin\n");
             DestruirGrafo(grafo);
             return NULL;
         }
 
         // Valida que la línea comience con 'e' (formato esperado para especificar una arista)
         if (line[0] != 'e') {
-            printf("Se esperaban %u lados, empezando con 'e' al ingresarlos\n", m);
             DestruirGrafo(grafo);
             return NULL;
         }
 
         // Lee los identificadores (IDs) de los vértices de la arista de la línea
         if (sscanf(line + 1, "%d%*c%d", &v, &w) != 2) {
-            printf("Error al leer los vertices de la arista %d\n", i + 1);
             DestruirGrafo(grafo);
             return NULL;
         }
 
         // Valida que los IDs de los vértices estén dentro del rango válido (0 a n-1)
         if (v >= n || w >= n) {
-            printf("Error: ID de vertice invalido en la arista %d\n", i + 1);
             DestruirGrafo(grafo);
             return NULL;
         }
@@ -143,18 +148,6 @@ Grafo ConstruirGrafo() {
 /* 
    O(DestruirGrafo) = n, donde:
    - n es el número de vértices del grafoc 8 vertices, 10 lados, Delta 3. vertices 0-7.
-p edge 8 10
-e 1 7
-e 2 6
-e 1 4
-e 2 5
-e 3 7
-e 0 6
-e 3 4
-e 0 5
-e 4 7
-e 5 6
-e 1 8
 */
 // Función para destruir un grafo.
 void DestruirGrafo(Grafo G) {
@@ -169,11 +162,12 @@ void DestruirGrafo(Grafo G) {
         if (G->vertices[i]->vecinos != NULL) {
             free(G->vertices[i]->vecinos);
             G->vertices[i]->vecinos = NULL;
-            free(G->vertices[i]);
-            G->vertices[i] = NULL;
         }
+        free(G->vertices[i]);
+        G->vertices[i] = NULL;
     }
-
+    free(G->inicializado);
+    G->inicializado = NULL;
     // Libera la memoria del array de vértices.
     free(G->vertices);
     G->vertices = NULL;
@@ -298,3 +292,4 @@ void ImportarColores(color* Color,Grafo  G) {
         G->vertices[i]->color = Color[i];
     }
 }
+

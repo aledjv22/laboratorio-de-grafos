@@ -23,6 +23,7 @@ typedef struct GrafoSt {
     u32 numColores; // Cantidad de colores con los que se puede pintar el grafo
     u32 delta; // Delta del grafo, mayor grado
     Vertice *vertices; // Array de punteros a Vertice
+    u32 *inicializado;
 } GrafoSt;
 
 

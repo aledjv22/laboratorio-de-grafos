@@ -3,6 +3,9 @@
 
 #define MAX_LINE_SIZE 100  // Define la constante MAX_LINE_SIZE para el tamaño máximo de línea (100 caracteres)
 
+Grafo crear_Grafo(u32 n, u32 m);
+void agregar_Vecino(Grafo grafo, u32 verticeActual, u32 idVecino);
+
 // Función para crear un grafo vacío con n vértices y m lados.
 Grafo crear_Grafo(u32 n, u32 m) {
     // Reserva memoria para la estructura GrafoSt.
@@ -25,18 +28,7 @@ Grafo crear_Grafo(u32 n, u32 m) {
         // Reserva memoria para la estructura VerticeSt.
         grafo->vertices[i] = malloc(sizeof(struct VerticeSt));
 
-        // Inicializa el grado del vértice a 0.int main() {
-    Grafo g = ConstruirGrafo();
-    if(g == NULL) {
-        DestruirGrafo(g);
-    }
-
-    print_grafo(g);
-    printf("Vertices:%u\n", NumeroDeVertices(g));
-    printf("Lados:%u\n", NumeroDeLados(g));
-    printf("Delta:%u\n", Delta(g));
-    DestruirGrafo(g);
-}
+        // Inicializa el grado del vértice a 0.
         grafo->vertices[i]->grado = 0;
 
         // Inicializa el color del vértice a 0.
@@ -116,24 +108,28 @@ Grafo ConstruirGrafo() {
     for (u32 i = 0; i < m; i++) {
         if (fgets(line, sizeof(line), stdin) == NULL) {
             printf("Error al leer stdin\n");
+            DestruirGrafo(grafo);
             return NULL;
         }
 
         // Valida que la línea comience con 'e' (formato esperado para especificar una arista)
         if (line[0] != 'e') {
             printf("Se esperaban %u lados, empezando con 'e' al ingresarlos\n", m);
+            DestruirGrafo(grafo);
             return NULL;
         }
 
         // Lee los identificadores (IDs) de los vértices de la arista de la línea
         if (sscanf(line + 1, "%d%*c%d", &v, &w) != 2) {
             printf("Error al leer los vertices de la arista %d\n", i + 1);
+            DestruirGrafo(grafo);
             return NULL;
         }
 
         // Valida que los IDs de los vértices estén dentro del rango válido (0 a n-1)
         if (v >= n || w >= n) {
             printf("Error: ID de vertice invalido en la arista %d\n", i + 1);
+            DestruirGrafo(grafo);
             return NULL;
         }
 
@@ -146,7 +142,19 @@ Grafo ConstruirGrafo() {
 
 /* 
    O(DestruirGrafo) = n, donde:
-   - n es el número de vértices del grafo
+   - n es el número de vértices del grafoc 8 vertices, 10 lados, Delta 3. vertices 0-7.
+p edge 8 10
+e 1 7
+e 2 6
+e 1 4
+e 2 5
+e 3 7
+e 0 6
+e 3 4
+e 0 5
+e 4 7
+e 5 6
+e 1 8
 */
 // Función para destruir un grafo.
 void DestruirGrafo(Grafo G) {
@@ -160,15 +168,19 @@ void DestruirGrafo(Grafo G) {
         // Si la lista de vecinos no es nula, libera la memoria.
         if (G->vertices[i]->vecinos != NULL) {
             free(G->vertices[i]->vecinos);
+            G->vertices[i]->vecinos = NULL;
             free(G->vertices[i]);
+            G->vertices[i] = NULL;
         }
     }
 
     // Libera la memoria del array de vértices.
     free(G->vertices);
+    G->vertices = NULL;
 
     // Libera la memoria de la estructura GrafoSt.
     free(G);
+    G = NULL;
 }
 
 /* 

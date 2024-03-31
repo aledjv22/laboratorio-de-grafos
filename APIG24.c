@@ -25,7 +25,18 @@ Grafo crear_Grafo(u32 n, u32 m) {
         // Reserva memoria para la estructura VerticeSt.
         grafo->vertices[i] = malloc(sizeof(struct VerticeSt));
 
-        // Inicializa el grado del vértice a 0.
+        // Inicializa el grado del vértice a 0.int main() {
+    Grafo g = ConstruirGrafo();
+    if(g == NULL) {
+        DestruirGrafo(g);
+    }
+
+    print_grafo(g);
+    printf("Vertices:%u\n", NumeroDeVertices(g));
+    printf("Lados:%u\n", NumeroDeLados(g));
+    printf("Delta:%u\n", Delta(g));
+    DestruirGrafo(g);
+}
         grafo->vertices[i]->grado = 0;
 
         // Inicializa el color del vértice a 0.
@@ -274,13 +285,4 @@ void ImportarColores(color* Color,Grafo  G) {
         // Asignar el color al vértice
         G->vertices[i]->color = Color[i];
     }
-}
-
-int main() {
-    Grafo g = ConstruirGrafo();
-    if(g == NULL) {
-        DestruirGrafo(g);
-    }
-
-    DestruirGrafo(g);
 }

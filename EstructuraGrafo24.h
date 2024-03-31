@@ -11,7 +11,7 @@ typedef unsigned int color;
 typedef struct VerticeSt {
     u32 grado; // Grado de un vertice
     color color; // Color del vertice
-    u32 *vecinos; // Si = 1 es vecino, si no, no es vecino
+    u32 *vecinos; // Cada vecino se ingresa a partir del grado actual del vertice.
 } VerticeSt;
 
 //Vertice es un puntero a una estructura VerticeSt, la cual debe estar definida en el .h de arriba

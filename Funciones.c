@@ -1,26 +1,29 @@
 #include "APIG24.h"
 #include <string.h>
 
-Grafo crear_Grafo(u32 n) {
-    Grafo Grafo = malloc(sizeof(GrafoSt) + n * sizeof(Vertice));
-    Grafo->numVertices = n;
-    u32 i;
-    for (i = 0; i < n; ++i)
-    Grafo->vertices[i] = NULL;
-  
-    return Grafo;
-}
+Grafo crear_Grafo(u32 n, u32 m) {
+    Grafo grafo = malloc(sizeof(GrafoSt));
+    grafo->numVertices = n;
+    grafo->vertices = malloc(n * sizeof(VerticeSt));
+    grafo->numLados = m * 2;
+    
+    for (u32 i = 0; i < n; i++) {
+        grafo->vertices[i] = malloc(sizeof(struct VerticeSt));
+        grafo->vertices[i]->grado = 0;
+        grafo->vertices[i]->color = 0;
+        grafo->vertices[i]->vecinos = malloc(n * sizeof(u32));
+    }
 
-Vertice crear_Vertice(u32 v) {
-    Vertice nuevoVertice = malloc(sizeof(VerticeSt));
-    nuevoVertice->id = v;
-    nuevoVertice->vecinos = NULL;
-    return nuevoVertice;
+
+    return grafo;
 }
 
 void agregar_Vecino(Grafo grafo, u32 verticeActual, u32 idVecino) {
+    grafo->vertices[verticeActual]->vecinos[idVecino] = 1;
+    grafo->vertices[idVecino]->vecinos[verticeActual] = 1;
 
-    Vertice nuevoVertice = crear_Vertice(idVecino);
-    nuevoVertice->vecinos = grafo->vertices[verticeActual-1];
-    grafo->vertices[verticeActual-1] = nuevoVertice;
+    if (++(grafo->vertices[verticeActual]->grado) > grafo->delta)
+        grafo->delta = grafo->vertices[verticeActual]->grado;
+    if (++(grafo->vertices[idVecino]->grado) > grafo->delta)
+        grafo->delta = grafo->vertices[idVecino]->grado;  
 }

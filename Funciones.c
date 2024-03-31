@@ -5,7 +5,7 @@ Grafo crear_Grafo(u32 n, u32 m) {
     Grafo grafo = malloc(sizeof(GrafoSt));
     grafo->numVertices = n;
     grafo->vertices = malloc(n * sizeof(VerticeSt));
-    grafo->numLados = m * 2;
+    grafo->numLados = m;
     
     for (u32 i = 0; i < n; i++) {
         grafo->vertices[i] = malloc(sizeof(struct VerticeSt));
@@ -19,8 +19,8 @@ Grafo crear_Grafo(u32 n, u32 m) {
 }
 
 void agregar_Vecino(Grafo grafo, u32 verticeActual, u32 idVecino) {
-    grafo->vertices[verticeActual]->vecinos[idVecino] = 1;
-    grafo->vertices[idVecino]->vecinos[verticeActual] = 1;
+    grafo->vertices[verticeActual]->vecinos[grafo->vertices[verticeActual]->grado] = idVecino;
+    grafo->vertices[idVecino]->vecinos[grafo->vertices[idVecino]->grado] = verticeActual;
 
     if (++(grafo->vertices[verticeActual]->grado) > grafo->delta)
         grafo->delta = grafo->vertices[verticeActual]->grado;
